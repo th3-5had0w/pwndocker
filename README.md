@@ -1,2 +1,2 @@
 # pwndocker
-yes, a pwndocker ¯\_(ツ)_/¯
+yes, a pwndocker ¯\\_(ツ)_/¯
