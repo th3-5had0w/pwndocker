@@ -1,4 +1,4 @@
-# Pwndocker 16.04 Manual
+# Pwndocker 18.04 Manual
 
 ### Build the image from Dockerfile
 
