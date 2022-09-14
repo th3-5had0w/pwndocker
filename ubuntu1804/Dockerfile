@@ -1,8 +1,8 @@
 FROM ubuntu:18.04
 
-ENV DEBIAN_FRONTEND noninteractive
+ARG DEBIAN_FRONTEND=noninteractive
 
-ENV TZ Asia/Shanghai
+ENV LANG C.UTF-8
 
 RUN dpkg --add-architecture i386 && \
     apt-get -y update && \
@@ -44,9 +44,6 @@ RUN dpkg --add-architecture i386 && \
     tzdata --fix-missing && \
     rm -rf /var/lib/apt/list/*
 
-RUN ln -fs /usr/share/zoneinfo/$TZ /etc/localtime && \
-    dpkg-reconfigure -f noninteractive tzdata
-
 RUN python3 -m pip install -U pip && \
     python3 -m pip install --no-cache-dir \
     ropgadget \
@@ -64,14 +61,9 @@ RUN python3 -m pip install -U pip && \
 
 RUN gem install one_gadget seccomp-tools
 
-RUN cd ~/ && git clone --depth 1 https://github.com/pwndbg/pwndbg && \
+RUN cd ~/ && git clone https://github.com/pwndbg/pwndbg && \
     cd pwndbg && chmod +x setup.sh && ./setup.sh
 
-RUN git clone --depth 1 https://github.com/scwuaptx/Pwngdb.git ~/Pwngdb && \
-    cd ~/Pwngdb && cat ~/Pwngdb/.gdbinit  >> ~/.gdbinit && \
-    sed -i "s?source ~/peda/peda.py?# source ~/peda/peda.py?g" ~/.gdbinit
+RUN mkdir /workspace
 
-ENV LANG C.UTF-8
-
-RUN mkdir /ctf
-WORKDIR /ctf
+WORKDIR /workspace
